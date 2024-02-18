@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  bff:
+    container_name: doggo-bff
+    build:
+      dockerfile: ./internal/bff/Dockerfile
+      context: .
+    ports:
+      - "3000:3000"
+    restart: on-failure
+
+  account:
+    container_name: doggo-account
+    build:
+      dockerfile: ./internal/account/Dockerfile
+      context: .
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    restart: on-failure
+
+  mongo:
+    container_name: mongo
+    image: mongo:7
+    volumes:
+      - ./volumes/mongo/data:/data/db
+    ports:
+      - 27017:27017
+    restart: on-failure

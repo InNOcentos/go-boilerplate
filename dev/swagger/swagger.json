@@ -1,0 +1,156 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Doggo-track API.",
+        "title": "Doggo-track API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/users": {
+            "post": {
+                "description": "Create new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "operationId": "create-user",
+                "parameters": [
+                    {
+                        "description": "user info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.CreateDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.CreateResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.HttpErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "description": "Get user by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "operationId": "get-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.GetResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.HttpErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "response.HttpErrorResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "user.CreateDto": {
+            "type": "object",
+            "required": [
+                "name",
+                "surname"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                },
+                "surname": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                }
+            }
+        },
+        "user.CreateResponseDto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.GetResponseDto": {
+            "type": "object",
+            "properties": {
+                "createDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "updateDate": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

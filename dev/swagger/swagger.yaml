@@ -1,0 +1,103 @@
+definitions:
+  response.HttpErrorResponse:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  user.CreateDto:
+    properties:
+      name:
+        maxLength: 30
+        minLength: 1
+        type: string
+      surname:
+        maxLength: 30
+        minLength: 1
+        type: string
+    required:
+    - name
+    - surname
+    type: object
+  user.CreateResponseDto:
+    properties:
+      id:
+        type: string
+    type: object
+  user.GetResponseDto:
+    properties:
+      createDate:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      surname:
+        type: string
+      updateDate:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Doggo-track API.
+  title: Doggo-track API
+  version: "1.0"
+paths:
+  /api/users:
+    post:
+      consumes:
+      - application/json
+      description: Create new user
+      operationId: create-user
+      parameters:
+      - description: user info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.CreateResponseDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.HttpErrorResponse'
+      tags:
+      - users
+  /api/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get user by id
+      operationId: get-user
+      parameters:
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.GetResponseDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.HttpErrorResponse'
+      tags:
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
